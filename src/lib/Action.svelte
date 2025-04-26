@@ -7,16 +7,15 @@
 		onclick: () => void;
 		className?: string;
 	}
-
 	let { icon, label, onclick, className }: Props = $props();
 </script>
 
 
 <button onclick={onclick} type="button" class={className}>
 	{#if icon}
-		<Icon icon={icon} width="32" height="32" />
+		<Icon icon={icon} width="32" height="32" /> <br/>
 	{/if}
-	{ label }
+	<span>{ label }</span>
 </button>
 
 <style lang="scss">
@@ -25,5 +24,8 @@
 		background: none;
 		cursor: pointer;
 		color: inherit;
+	}
+	span {
+		font-size: 80%;
 	}
 </style>

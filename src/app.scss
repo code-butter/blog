@@ -1,0 +1,60 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  &.dyslexic {
+    font-family: "OpenDyslexic", sans-serif;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+#page-container {
+  --menu-opacity: 1;
+  --fg-color: #111;
+  --bg-color: #eee;
+  --menu-bg-color: rgba(200,200,200,var(--menu-opacity));
+  a:link {
+    color: #1e47ff;
+  }
+  a:visited {
+    color: #9422b6;
+  }
+  &.view-light {
+    --fg-color: #111;
+    --bg-color: #eee;
+    --menu-bg-color: rgba(200,220,200,var(--menu-opacity));
+    a:link {
+      color: #1e47ff;
+    }
+    a:visited {
+      color: #9422b6;
+    }
+  }
+  &.view-dark {
+    --fg-color: #ddd;
+    --bg-color: #111;
+    --menu-bg-color: rgba(50,70,50,var(--menu-opacity));
+    a:link {
+      color: #8699ff;
+    }
+    a:visited {
+      color: #c52cf1;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #page-container {
+    --bg-color: #111;
+    --fg-color: #ddd;
+    --menu-bg-color: rgba(200,200,200,0.5);
+  }
+}

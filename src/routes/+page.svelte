@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import type { PageProps } from './+page.server';
+	const { data }: PageProps = $props();
+</script>
+
+
+{#each data.articles as article (article.slug)}
+	<p>
+		<a href="/articles/{article.slug}">
+			{ article.title }
+		</a>
+	</p>
+{/each}

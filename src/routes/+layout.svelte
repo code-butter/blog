@@ -3,16 +3,24 @@
 	import {onMount} from 'svelte';
 	import Action from '$lib/Action.svelte';
 	import icons from "$lib/icons";
+	import "../app.scss"
+	import DropdownMenu from '$lib/DropdownMenu.svelte';
 
 	let { children } = $props();
 	let show = $state(false);
-	let viewMode = $state('light');
+	let viewMode = $state('');
 	let freezeContent = $state(false);
 	let contentWidth = $state('');
 	let innerContentDiv: HTMLDivElement;
+	let fontMenuOpen = false;
 
 	onMount(() => {
-		viewMode = window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ? 'dark' : 'light'
+		const storedMode = localStorage.getItem('viewMode');
+		if (storedMode) {
+			viewMode = storedMode
+		} else {
+			viewMode = window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ? 'dark' : 'light'
+		}
 	});
 	function showMenu() {
 		show = true;
@@ -25,6 +33,7 @@
 
 	function toggleViewMode() {
 		viewMode = viewMode == 'dark' ? 'light' : 'dark';
+		localStorage.setItem('viewMode', viewMode);
 	}
 
 	function contentAnimateStart() {
@@ -36,19 +45,62 @@
 		contentWidth = '';
 	}
 
+	function switchSans() {
+		document.getElementsByName('body')[0].classList.remove('.dyslexic')
+	}
+
+	function switchDyslexic() {
+		document.getElementsByName('body')[0].classList.add('.dyslexic')
+	}
+
+
 </script>
+
+<svelte:head>
+	<title>Code Butter</title>
+</svelte:head>
 
 <div id="page-container" class:show-menu={show} class={`view-${viewMode}`}>
 	<header class:show={show}>
-		<Action icon={icons.menuOpen} onclick={hideMenu} className="close-menu"/>
+		<Action icon={icons.menuOpen} onclick={hideMenu} className="close-menu" label="Close"/>
+		<div>
+			<p class="title">
+				<img src="/butter.webp" alt=""/>
+				Code Butter
+			</p>
+			<p>
+				Making programming a buttery smooth experience. Musings on code, infrastructure, and process.
+			</p>
+		</div>
 	</header>
-	<div id="page-content" class:freeze={freezeContent} on:transitionend={contentAnimateEnd} on:transitionstart={contentAnimateStart}>
+	<div id="page" class:freeze={freezeContent} ontransitionend={contentAnimateEnd} ontransitionstart={contentAnimateStart}>
 		<div style={contentWidth} bind:this={innerContentDiv}>
 			<nav>
-				<Action icon={icons.menu} onclick={showMenu} />
-				<Action icon={icons.lightMode} onclick={toggleViewMode} />
+				<div class="controls">
+					<Action icon={icons.menu} onclick={showMenu} className="expand-menu" label="Nav" />
+					<Action icon={icons.lightMode} onclick={toggleViewMode} label={ viewMode === 'dark' ? 'Light' : 'Dark' } />
+					<DropdownMenu bind:open={fontMenuOpen}>
+						{#snippet menu(callback)}
+							<Action onclick={callback} icon={icons.font} label="Font" />
+						{/snippet}
+						{#snippet contents()}
+							<button type="button" onclick={switchSans}>
+								Sans-Serif
+							</button>
+							<button type="button" onclick={switchDyslexic}>
+								Dyslexic
+							</button>
+						{/snippet}
+					</DropdownMenu>
+				</div>
+				<a class="title" href="/">
+					<img src="/butter.webp" alt="" />
+					Code Butter
+				</a>
 			</nav>
-			{@render children?.()}
+			<div class="page-content">
+				{@render children?.()}
+			</div>
 		</div>
 	</div>
 </div>
@@ -64,7 +116,29 @@
     width: 25%;
 		transition: width $content-transition-time ease-in-out;
 		position: relative;
+		color: #111;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
+		> div {
+			text-align: center;
+			border-radius: 0.5em;
+			background-color: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(5px);
+			width: 80%;
+			padding: 10px;
+			p {
+				margin: 0.25em 0;
+			}
+			.title {
+        font-size: 32px;
+			}
+			img {
+				height: 48px;
+				vertical-align: middle;
+			}
+		}
 		:global(.close-menu) {
 			transition: opacity $content-transition-time;
 			pointer-events: none;
@@ -87,36 +161,70 @@
 					pointer-events: auto;
 				}
       }
-      #page-content {
-        width: 1px;
+      #page {
+        width: 0;
 				opacity: 0;
 				flex: 0 0 0;
 				padding: 0;
       }
 		}
-		&.view-light {
-			background-color: #eee;
-			color: #111;
-		}
-		&.view-dark {
-			background-color: #111;
-			color: #ddd;
-		}
+    background-color: var(--bg-color);
+    color: var(--fg-color);
   }
-  #page-content {
-    flex: 1;
+  #page {
+    flex: 1 1;
     padding: 1em;
-		transition: width $content-transition-time ease-in-out, opacity $content-transition-time;
+    transition: width $content-transition-time ease-in-out, opacity $content-transition-time;
 		&.freeze {
 			overflow: hidden;
 		}
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+		nav {
+			display: flex;
+      border-bottom: 1px solid var(--fg-color);
+			padding-bottom: 12px;
+			:global(.expand-menu) {
+        display: none;
+      }
+			.controls {
+				flex: 1 1;
+			}
+			.title {
+				color: inherit;
+				text-decoration: none;
+				img {
+					height: 32px;
+					vertical-align: middle;
+				}
+			}
+		}
   }
-  @media screen and (max-width: 1000px) {
+
+	@media screen and (max-width: 1000px) {
     header {
       width: 0;
       overflow: hidden;
-      background-image: url("/background-sm.webp");
     }
+    #page-container nav {
+			.title {
+				display: inline-block;
+			}
+      :global(.expand-menu) {
+        display: inline;
+      }
+		}
   }
+
+	@media screen and (max-height: 600px) {
+		header {
+      background-image: url("/background-sm.webp");
+		}
+	}
+
 </style>
 
