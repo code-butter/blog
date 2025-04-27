@@ -5,8 +5,14 @@ body, html {
 
 body {
   font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1;
   &.dyslexic {
     font-family: "OpenDyslexic", sans-serif;
+    font-size: 13px;
+    button {
+      font-family: "OpenDyslexic", sans-serif;
+    }
   }
 }
 

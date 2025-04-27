@@ -1,10 +1,10 @@
 <script lang="ts">
 
+	import "../app.scss"
 	import {onMount} from 'svelte';
 	import Action from '$lib/Action.svelte';
 	import icons from "$lib/icons";
-	import "../app.scss"
-	import DropdownMenu from '$lib/DropdownMenu.svelte';
+	import FontSelector from './FontSelector.svelte';
 
 	let { children } = $props();
 	let show = $state(false);
@@ -12,7 +12,6 @@
 	let freezeContent = $state(false);
 	let contentWidth = $state('');
 	let innerContentDiv: HTMLDivElement;
-	let fontMenuOpen = false;
 
 	onMount(() => {
 		const storedMode = localStorage.getItem('viewMode');
@@ -44,16 +43,6 @@
 		freezeContent = show;
 		contentWidth = '';
 	}
-
-	function switchSans() {
-		document.getElementsByName('body')[0].classList.remove('.dyslexic')
-	}
-
-	function switchDyslexic() {
-		document.getElementsByName('body')[0].classList.add('.dyslexic')
-	}
-
-
 </script>
 
 <svelte:head>
@@ -79,19 +68,7 @@
 				<div class="controls">
 					<Action icon={icons.menu} onclick={showMenu} className="expand-menu" label="Nav" />
 					<Action icon={icons.lightMode} onclick={toggleViewMode} label={ viewMode === 'dark' ? 'Light' : 'Dark' } />
-					<DropdownMenu bind:open={fontMenuOpen}>
-						{#snippet menu(callback)}
-							<Action onclick={callback} icon={icons.font} label="Font" />
-						{/snippet}
-						{#snippet contents()}
-							<button type="button" onclick={switchSans}>
-								Sans-Serif
-							</button>
-							<button type="button" onclick={switchDyslexic}>
-								Dyslexic
-							</button>
-						{/snippet}
-					</DropdownMenu>
+					<FontSelector />
 				</div>
 				<a class="title" href="/">
 					<img src="/butter.webp" alt="" />
@@ -186,6 +163,7 @@
 
 		nav {
 			display: flex;
+			align-items: center;
       border-bottom: 1px solid var(--fg-color);
 			padding-bottom: 12px;
 			:global(.expand-menu) {
