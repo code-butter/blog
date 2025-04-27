@@ -71,7 +71,7 @@
 		border: 1px solid var(--fg-color);
 		border-radius: 1em;
 		padding: 1em;
-		background-color: var(--menu-bg-color);
+		background-color: var(--accent-color);
 		&.open {
 			display: block;
 		}

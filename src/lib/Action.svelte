@@ -13,12 +13,15 @@
 
 <button onclick={onclick} type="button" class={className}>
 	{#if icon}
-		<Icon icon={icon} width="32" height="32" /> <br/>
+		<Icon icon={icon} width="32" height="32" class="action-icon" />
 	{/if}
 	<span>{ label }</span>
 </button>
 
 <style lang="scss">
+	:global(.action-icon) {
+		display: block;
+	}
 	button {
 		border: none;
 		background: none;

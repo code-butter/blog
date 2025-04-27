@@ -1,11 +1,43 @@
 <script lang="ts">
+	import Author from '$lib/Author.svelte';
+	import ArticleDate from '$lib/ArticleDate.svelte';
+
 	const { data } = $props();
 	const article = data.article;
 	const ArticleComponent = article.component;
 </script>
 
-<h1>{ article.title }</h1>
+
+<header>
+	<div id="date-container">
+		<ArticleDate date={article.date} />
+	</div>
+	<div id="header-content">
+		<h1>
+			{ article.title }
+		</h1>
+		<p>Published: { article.date }</p>
+		{#if article.updated }
+			<p>Last Updated: { article.updated }</p>
+		{/if}
+		<p>By <Author id={article.author} /></p>
+	</div>
+</header>
+
 
 <ArticleComponent />
+
+<style lang="scss">
+	 header {
+		 #date-container {
+			 margin-right: 0.5em;
+			 padding-top: 0.5em;
+		 }
+		 display: flex;
+		 padding: 1em 0;
+		 h1 { margin: 0; }
+		 p { margin: 0; }
+	 }
+</style>
 
 

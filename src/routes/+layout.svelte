@@ -80,6 +80,8 @@
 			</div>
 		</div>
 	</div>
+	<div id="page-filler">
+	</div>
 </div>
 
 
@@ -90,7 +92,8 @@
     background-image: url("/background.webp");
     background-size: cover;
     background-position: center;
-    width: 25%;
+    width: calc((100vw - 1200px) / 2);
+		min-width: 300px;
 		transition: width $content-transition-time ease-in-out;
 		position: relative;
 		color: #111;
@@ -149,8 +152,9 @@
     color: var(--fg-color);
   }
   #page {
-    flex: 1 1;
-    padding: 1em;
+    padding: 1em 2em;
+		width: 100%;
+		max-width: 1200px;
     transition: width $content-transition-time ease-in-out, opacity $content-transition-time;
 		&.freeze {
 			overflow: hidden;
@@ -183,9 +187,17 @@
 		}
   }
 
-	@media screen and (max-width: 1000px) {
+	#page-filler {
+		background-image: url("/background.webp");
+		background-size: cover;
+		flex: 1 1;
+		opacity: 0.8;
+	}
+
+	@media screen and (max-width: 1200px) {
     header {
       width: 0;
+			min-width: 0;
       overflow: hidden;
     }
     #page-container nav {
