@@ -5,6 +5,7 @@
 	import Action from '$lib/Action.svelte';
 	import icons from "$lib/icons";
 	import FontSelector from './FontSelector.svelte';
+	import { tags } from '$lib/data';
 
 	let { children } = $props();
 	let show = $state(false);
@@ -60,6 +61,13 @@
 			<p>
 				Making programming a buttery smooth experience. Musings on code, infrastructure, and process.
 			</p>
+
+			<div class="subsection">
+				<p class="subheader">Topics:</p>
+				{#each Object.values(tags) as tag (tag.id)}
+					<a href={`/tags/${tag.id}`} class="topic">{tag.displayName}</a>
+				{/each}
+			</div>
 		</div>
 	</header>
 	<div id="page" class:freeze={freezeContent} ontransitionend={contentAnimateEnd} ontransitionstart={contentAnimateStart}>
@@ -87,16 +95,36 @@
 
 <style lang="scss">
 	$content-transition-time: .3s;
+
+	.subsection {
+		margin-top: 1em;
+	}
+	.subheader {
+		font-weight: bold;
+		border-bottom: 1px solid var(--fg-color);
+		padding-bottom: 5px;
+	}
+	a.topic {
+		text-decoration: none;
+		display: inline-block;
+		text-wrap: nowrap;
+		border: 1px solid var(--fg-color);
+		border-radius: 5px;
+		padding: 2px 5px;
+		margin: 10px;
+    color: var(--fg-color) !important;
+		background-color: var(--accent-color);
+	}
   header {
     background-color: #c8dbf0;
     background-image: url("/background.webp");
     background-size: cover;
     background-position: center;
     width: calc((100vw - 1200px) / 2);
-		min-width: 300px;
+		min-width: 400px;
 		transition: width $content-transition-time ease-in-out;
 		position: relative;
-		color: #111;
+		color: inherit;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -104,7 +132,7 @@
 		> div {
 			text-align: center;
 			border-radius: 0.5em;
-			background-color: rgba(255, 255, 255, 0.6);
+			background-color: hsl(from var(--bg-color) h s l / 0.6);
       backdrop-filter: blur(5px);
 			width: 80%;
 			padding: 10px;

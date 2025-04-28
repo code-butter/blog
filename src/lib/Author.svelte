@@ -1,6 +1,5 @@
 <script lang="ts">
-
-	import authors from './authors';
+	import { authors } from './data';
 	let { id } = $props();
 	const author = authors[id];
 </script>

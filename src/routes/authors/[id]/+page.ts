@@ -1,4 +1,4 @@
-import authors from '$lib/authors';
+import { authors } from '$lib/data';
 import { error } from '@sveltejs/kit';
 import { getAllArticles } from '$lib/articles';
 

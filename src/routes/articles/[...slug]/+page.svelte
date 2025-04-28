@@ -4,6 +4,7 @@
 
 	const { data } = $props();
 	const article = data.article;
+	const tags = data.tags;
 	const ArticleComponent = article.component;
 </script>
 
@@ -24,8 +25,17 @@
 	</div>
 </header>
 
-
 <ArticleComponent />
+
+{#if tags?.length}
+	<p>
+		Explore related:
+		{#each tags as tag, idx (tag.id)}
+			<a href={`/tags/${tag.id}`}>{tag.displayName}</a>{#if idx !== tags.length - 1 },{/if}
+		{/each}
+	</p>
+
+{/if}
 
 <style lang="scss">
 	 header {

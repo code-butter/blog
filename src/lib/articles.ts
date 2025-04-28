@@ -7,7 +7,7 @@ export interface ArticleData {
 	date: string;
 	updated?: string;
 	slug: string;
-	tags: string[];
+	tags: string;
 }
 
 export interface FullArticle extends ArticleData {
