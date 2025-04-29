@@ -22,7 +22,11 @@ export interface ExportedMarkdown {
 const pathMatcher = /\/(\d{4})-(\d{2})-(\d{2})-(.+)\.svx$/;
 
 export async function getAllArticles() {
-	const entries: [string, ExportedMarkdown][] = Object.entries(import.meta.glob("../articles/*.svx", { eager: true}));
+	const entryList = Object.entries(import.meta.glob<ExportedMarkdown>("../articles/*.svx"));
+	const entries: [string, ExportedMarkdown][] = [];
+	for (let i = 0; i < entryList.length; i++) {
+		entries.push([entryList[i][0], await entryList[i][1]()]);
+	}
 	const articles = entries
 		.filter(([path]) => {
 			if (!pathMatcher.test(path)) {

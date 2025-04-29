@@ -19,14 +19,9 @@ const authorsList: Author[] = [
 		displayName: 'Jeremy Nicoll',
 		description: ''
 	}
-]
+];
 
-const tagsList: Tag[] = [
-	{
-		id: 'one.tag',
-		displayName: 'One Tag'
-	}
-]
+const tagsList: Tag[] = [];
 
 const authorsMap: IdMap<Author> = {};
 authorsList.forEach(a => authorsMap[a.id] = a);

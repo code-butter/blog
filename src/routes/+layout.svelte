@@ -65,7 +65,7 @@
 			<div class="subsection">
 				<p class="subheader">Topics:</p>
 				{#each Object.values(tags) as tag (tag.id)}
-					<a href={`/tags/${tag.id}`} class="topic">{tag.displayName}</a>
+					<a href={`/tags/${tag.id}`} class="topic" onclick={hideMenu}>{tag.displayName}</a>
 				{/each}
 			</div>
 		</div>
@@ -228,6 +228,11 @@
 			min-width: 0;
       overflow: hidden;
     }
+
+		#page-filler {
+			display: none;
+		}
+
     #page-container nav {
 			.title {
 				display: inline-block;

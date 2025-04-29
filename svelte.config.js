@@ -1,11 +1,12 @@
 import { mdsvex } from 'mdsvex';
-import adapter from '@sveltejs/adapter-static';
+import staticAdapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const config = {
 	preprocess: [vitePreprocess(), mdsvex()],
-	kit: { adapter: adapter() },
-	extensions: ['.svelte', '.svx']
+	kit: { adapter: staticAdapter() },
+	extensions: ['.svelte', '.svx'],
+	prerender: { default: true }
 };
 
 export default config;
