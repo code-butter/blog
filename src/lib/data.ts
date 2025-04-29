@@ -21,7 +21,12 @@ const authorsList: Author[] = [
 	}
 ];
 
-const tagsList: Tag[] = [];
+const tagsList: Tag[] = [
+	{
+		id: 'test',
+		displayName: 'Test'
+	}
+];
 
 const authorsMap: IdMap<Author> = {};
 authorsList.forEach(a => authorsMap[a.id] = a);

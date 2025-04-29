@@ -1,0 +1,6 @@
+---
+title: Placeholder Article
+author: jeremy.nicoll
+----
+
+The compile crashes without an article. :)
