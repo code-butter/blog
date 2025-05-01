@@ -1,4 +1,8 @@
-name: Deploy to Cloudflare Pages
+name: Deploy AWS
+
+permissions:
+  id-token: write
+  contents: read
 
 on:
   push:
@@ -13,6 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,11 +34,5 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
-
-      - name: Publish to Cloudflare Pages
-        run: wrangler pages deploy ./build --project-name ${{ secrets.PAGES_PROJECT_NAME }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy
+        run: S3_BUCKET=${{ secrets.S3_BUCKET }} node deploy.js
