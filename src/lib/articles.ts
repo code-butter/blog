@@ -21,13 +21,12 @@ export interface ExportedMarkdown {
 
 const pathMatcher = /\/(\d{4})-(\d{2})-(\d{2})-(.+)\.svx$/;
 
+const posts = Object.entries(import.meta.glob<ExportedMarkdown>('../articles/**/*.svx', { eager: true}));
+const postsMap: {[key: string]: ExportedMarkdown} = {};
+posts.forEach(p => postsMap[p[0]] = p[1]);
+
 export async function getAllArticles() {
-	const entryList = Object.entries(import.meta.glob<ExportedMarkdown>("../articles/*.svx"));
-	const entries: [string, ExportedMarkdown][] = [];
-	for (let i = 0; i < entryList.length; i++) {
-		entries.push([entryList[i][0], await entryList[i][1]()]);
-	}
-	const articles = entries
+	const articles = posts
 		.filter(([path]) => {
 			if (!pathMatcher.test(path)) {
 				console.error(`Invalid format for article: ${path}`);
@@ -57,22 +56,23 @@ export async function getAllArticles() {
 const slugMatcher = /^(\d{4})\/(\d{2})\/(\d{2})\/(.+)$/;
 
 export async function getArticle(slug: string) {
+	slug = slug.replace(/\/$/, '');
 	const matches = slugMatcher.exec(slug);
 	if (!matches) {
 		return null;
 	}
-	try {
-		const article: ExportedMarkdown = await import(`../articles/${matches[1]}-${matches[2]}-${matches[3]}-${matches[4]}.svx`);
-		return {
-			...article.metadata,
-			slug,
-			date: `${matches[1]}-${matches[2]}-${matches[3]}`,
-			component: article.default,
-		}	 as FullArticle;
-	} catch (err) {
-		console.error(err);
+	const key = `../articles/${matches[1]}-${matches[2]}-${matches[3]}-${matches[4]}.svx`;
+	const article = postsMap[key];
+	if (!article) {
+		console.error(`Key not found: ${key}`);
 		return null;
 	}
+	return {
+		...article.metadata,
+		slug,
+		date: `${matches[1]}-${matches[2]}-${matches[3]}`,
+		component: article.default,
+	}	 as FullArticle;
 }
 
 

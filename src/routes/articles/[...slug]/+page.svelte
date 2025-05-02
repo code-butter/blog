@@ -34,7 +34,6 @@
 			<a href={`/tags/${tag.id}`}>{tag.displayName}</a>{#if idx !== tags.length - 1 },{/if}
 		{/each}
 	</p>
-
 {/if}
 
 <style lang="scss">
