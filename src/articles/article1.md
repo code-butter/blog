@@ -12,70 +12,88 @@ The culprit could be environment pollution, which is one of the most common yet 
 
 When you install packages using pip, they go into your global Python environment. This can create several potential problems:
 
-1. Dependency hell: Package A requires version 1.0 of Package C, while Package B requires version 2.0. 
+1. Dependency hell: Package A requires version 1.0 of Package C, while Package B requires version 2.0.
+
 2. Cluttered environments: Your global package list becomes bloated with unused dependencies
+
 3. Version conflicts: Different projects often require different versions of the same package
 
-### Virtual Environment Options
-
-
 Virtual environments solve these problems by creating isolated Python environments for each project. Think of them as separate, clean rooms where your projects can live without contaminating each other.
-Key Benefits of Virtual Environments
 
-Isolation: Each project has its own dependencies, regardless of what other projects need
-Reproducibility: Easily recreate environments across different machines
-Clean testing: Test with only the packages your project actually needs
-Simplified dependency management: Generate clear requirements files
-Version control friendly: Avoid bloating repositories with unnecessary package information
+### Benefits of Virtual Environments:
 
-Virtual Environment Options in Python
-Python offers several tools for creating virtual environments. We will explore the 3 most prominent options:
+1. Isolation: Each project has its own dependencies, regardless of what other projects need
+
+2. Reproducibility: Easily recreate environments across different machines.
+
+3. Simplified dependency management: Generate clear requirements files.
+
+4. Version control friendly: Avoid bloating repositories with unnecessary package information.
+
+### Virtual Environment Options in Python
+Python offers several tools for creating virtual environments. We will explore the top 3 options:
 
 1. venv 
-The simplest option that comes built into Python 3:
+The simplest option that comes built into Python 3,it is the default method to create a virtual environment.
 
 ```bash
+# Create a virtual environment
 python -m venv myproject_env
 
-
-myproject_env\Scripts\activate
-
-# Activate it (on macOS/Linux)
+# Activate it 
 source myproject_env/bin/activate
+
+# Export dependencies to requirements.txt file
+pip freeze > requirements.txt
 ```
 2. Poetry 
-Poetry combines virtual environments with dependency management:
+Poetry combines virtual environments with dependency resolution. It comes with a pyproject.toml metadata file and a poetry.lock file, ensuring consistent installations across environments.
 
 ```bash
-# Initialize a new project
-poetry new myproject
-
-# Add dependencies
-poetry add pandas numpy
+# Initialize a project
+poetry init
 
 # Activate the environment
-poetry shell
+poetry env activate
+
+# Export dependencies to requirements.txt file from pyproject.toml
+poetry export --without-hashes -f requirements.txt --output requirements.txt
 ```
 
 3. uv
+uv is built with Rust and is significantly faster than Poetry and Pip for installing dependencies. It includes built-in Python version handling and integrates with several popular frameworks like PyTorch and Docker.
 
 ```bash
-# Create and activate a virtual environment
+# Create a virtual environment
 uv venv
+
+# Activate it
 source .venv/bin/activate
+
+# Export dependencies to requirements.txt file
+uv pip freeze > requirements.txt
 ```
 
-## Best Practices for Virtual Environments
+### Best Practices for Virtual Environments
 
-Create one environment per project: Resist the temptation to reuse environments
-Track your dependencies: Use requirements.txt, environment.yml, or pyproject.toml
-Include environment setup in documentation: Make it easy for collaborators
-Use meaningful names: Name environments after their projects
-Clean up unused environments: Remove environments for completed projects
+Let's view the best practices that can be applied for virtual environments:
 
-The best time to start using virtual environments was when you began coding in Python. The second best time is now. Begin with your current project:
+1. Create one environment per project: Resist the temptation to reuse environments.
 
-1. Create a new virtual environment
-2. Install only the packages you need
-3. Export the dependencies to a requirements file
-4. Commit this file to version control
+2. Track your dependencies: Use requirements.txt, or pyproject.toml(recommended after [PEP621](https://peps.python.org/pep-0621/)) to manage your dependencies.
+
+3. Use meaningful names: Name environments after their projects for ease of use.
+
+4. Clean up unused environments: Remove environments for completed projects to free up space and clutter.
+
+### Conclusion
+
+The best time to start using virtual environments was when you began coding in Python. The second best time is now. Begin with your current project with these 4 simple steps:
+
+1. Create a new virtual environment with venv, poetry or uv.
+
+2. Install only the packages you need.
+
+3. Export the dependencies to a requirements.txt file.
+
+4. Commit this file to git for tracking.
