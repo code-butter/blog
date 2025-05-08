@@ -22,7 +22,7 @@ const authorsList: Author[] = [
 	{
 		id: 'parag.ekbote',
 		displayName: 'Parag Ekbote',
-		description: ''
+		description: 'AI & Data Science undergrad. Currently passionate about open-source, machine learning and sharing practical insights through clean, reproducible code.'
 	}
 ];
 
@@ -30,6 +30,14 @@ const tagsList: Tag[] = [
 	{
 		id: 'test',
 		displayName: 'Test'
+	},
+	{
+		id: 'python',
+		displayName: 'Python'
+	},
+	{
+		id: 'virtualenv',
+		displayName: 'virtualenv'
 	}
 ];
 
