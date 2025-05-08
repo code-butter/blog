@@ -1,4 +1,8 @@
-## Python Projects Without Pollution: Why You Need Virtual Envs
+---
+title: Python Projects Without Pollution - Why You Need Virtual Envs
+author: parag.ekbote
+
+----
 
 As a developer, if you have worked with python and it's extensive ecosystem of packages for performing tasks such as data processing, visualization or for building web applications, you require different packages for doing so. After completing your installation and running your script you encounter the following error:
 

@@ -18,6 +18,11 @@ const authorsList: Author[] = [
 		id: 'jeremy.nicoll',
 		displayName: 'Jeremy Nicoll',
 		description: ''
+	},
+	{
+		id: 'parag.ekbote',
+		displayName: 'Parag Ekbote',
+		description: ''
 	}
 ];
 
