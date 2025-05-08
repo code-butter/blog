@@ -9,6 +9,11 @@ const authorsList: Author[] = [
 		id: 'jeremy.nicoll',
 		displayName: 'Jeremy Nicoll',
 		description: ''
+	},
+	{
+		id: 'parag.ekbote',
+		displayName: 'Parag Ekbote',
+		description: 'AI & Data Science undergrad. Currently passionate about open-source, machine learning and sharing practical insights through clean, reproducible code.'
 	}
 ];
 
@@ -16,6 +21,14 @@ const tagsList: Tag[] = [
 	{
 		id: 'test',
 		displayName: 'Test'
+	},
+	{
+		id: 'python',
+		displayName: 'Python'
+	},
+	{
+		id: 'virtualenv',
+		displayName: 'virtualenv'
 	}
 ];
 
