@@ -53,6 +53,11 @@ body {
   }
 }
 
+#page {
+  height: 100vh;
+  overflow: auto;
+}
+
 @media (prefers-color-scheme: dark) {
   #page-container {
     --bg-color: #111;

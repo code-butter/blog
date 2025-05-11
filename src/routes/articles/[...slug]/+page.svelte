@@ -31,7 +31,7 @@
 	<p>
 		Explore related:
 		{#each tags as tag, idx (tag.id)}
-			<a href={`/tags/${tag.id}`}>{tag.displayName}</a>{#if idx !== tags.length - 1 },{/if}
+			<a href={`/tags/${tag.id}`}>{tag.displayName}</a>{#if idx !== tags.length - 1 },&nbsp;{/if}
 		{/each}
 	</p>
 {/if}
