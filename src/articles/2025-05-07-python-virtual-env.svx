@@ -2,6 +2,7 @@
 title: Python Projects Without Pollution - Why You Need Virtual Envs
 author: parag.ekbote
 tags: python,virtualenv
+description: Learn why Python virtual environments are essential to avoid dependency conflicts and ensure reproducibility.
 ------
 
 As a developer, if you have worked with python and it's extensive ecosystem of packages for performing tasks such as data processing, visualization
@@ -62,8 +63,8 @@ poetry init
 # Activate the environment
 poetry env activate
 
-# Export dependencies to requirements.txt file from pyproject.toml
-poetry export --without-hashes -f requirements.txt --output requirements.txt
+# Export dependencies to requirements.txt file 
+poetry export --f=requirements.txt --without-hashes --output=requirements.txt
 ```
 
 3. uv

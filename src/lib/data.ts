@@ -28,10 +28,6 @@ const authorsList: Author[] = [
 
 const tagsList: Tag[] = [
 	{
-		id: 'test',
-		displayName: 'Test'
-	},
-	{
 		id: 'python',
 		displayName: 'Python'
 	},
