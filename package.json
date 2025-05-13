@@ -45,6 +45,7 @@
 		"@aws-sdk/client-s3": "^3.800.0",
 		"@aws-sdk/lib-dynamodb": "^3.799.0",
 		"gray-matter": "^4.0.3",
+		"handlebars": "^4.7.8",
 		"mime-types": "^3.0.1"
 	}
 }

@@ -11,13 +11,13 @@
 
 <header>
 	<div id="date-container">
-		<ArticleDate date={article.date} />
+		<ArticleDate date={article.published} />
 	</div>
 	<div id="header-content">
 		<h1>
 			{ article.title }
 		</h1>
-		<p>Published: { article.date }</p>
+		<p>Published: { article.published }</p>
 		{#if article.updated }
 			<p>Last Updated: { article.updated }</p>
 		{/if}

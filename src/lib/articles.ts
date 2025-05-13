@@ -1,78 +1,68 @@
-import type { Component } from 'svelte';
-
-export interface ArticleData {
-	title: string;
-	author: string;
-	description: string;
-	date: string;
-	updated?: string;
-	slug: string;
-	tags: string;
-}
-
-export interface FullArticle extends ArticleData {
-	component: Component
-}
-
-export interface ExportedMarkdown {
-	default: Component;
-	metadata: { [key: string]: string };
-}
-
-const pathMatcher = /\/(\d{4})-(\d{2})-(\d{2})-(.+)\.svx$/;
+import host from 'virtual:server-host';
+import type { ArticleData, ExportedMarkdown, FullArticle } from '$lib/types';
 
 const posts = Object.entries(import.meta.glob<ExportedMarkdown>('../articles/**/*.svx', { eager: true}));
 const postsMap: {[key: string]: ExportedMarkdown} = {};
 posts.forEach(p => postsMap[p[0]] = p[1]);
+const fileMatcher = /([^/]+)\.svx$/;
+
 
 export async function getAllArticles() {
 	const articles = posts
-		.filter(([path]) => {
-			if (!pathMatcher.test(path)) {
-				console.error(`Invalid format for article: ${path}`);
-				return false;
-			}
-			return true;
-		})
 		.map(([path, article]): ArticleData => {
-			const matches = pathMatcher.exec(path);
-			if (!matches) {
-				console.error('Should not get here. Filter out invalid matches before map');
-				return {} as ArticleData;
-			}
-			return {
-				...article.metadata,
-				date: `${matches[1]}-${matches[2]}-${matches[3]}`,
-				slug: `${matches[1]}/${matches[2]}/${matches[3]}/${matches[4]}`,
-			} as ArticleData;
+			const matches = fileMatcher.exec(path);
+			return processArticle(article, matches![1]);
 	});
 	articles.sort((a,b) => {
-		if (a.slug === b.slug) return 0;
-		return a.slug > b.slug ? -1 : 1;
+		if (a.published === b.published) {
+			return a.slug > b.slug ? -1 : 1;
+		}
+		return a.published > b.published ? -1 : 1;
 	});
 	return articles;
 }
 
-const slugMatcher = /^(\d{4})\/(\d{2})\/(\d{2})\/(.+)$/;
-
 export async function getArticle(slug: string) {
 	slug = slug.replace(/\/$/, '');
-	const matches = slugMatcher.exec(slug);
-	if (!matches) {
-		return null;
-	}
-	const key = `../articles/${matches[1]}-${matches[2]}-${matches[3]}-${matches[4]}.svx`;
+	const key = `../articles/${slug}.svx`;
 	const article = postsMap[key];
 	if (!article) {
 		console.error(`Key not found: ${key}`);
 		return null;
 	}
-	return {
+	return processArticle(article, slug, true);
+}
+
+function processArticle(article: ExportedMarkdown, slug: string, includeComponent = false) {
+	const fullArticle: FullArticle = {
 		...article.metadata,
 		slug,
-		date: `${matches[1]}-${matches[2]}-${matches[3]}`,
-		component: article.default,
-	}	 as FullArticle;
+		published: new Date(article.metadata.published),
+		updated: article.metadata.updated ? new Date(article.metadata.updated) : undefined
+	} as FullArticle;
+	if (includeComponent) {
+		fullArticle.component = article.default;
+	}
+	return fullArticle;
+}
+
+export async function getArticlesByTag(id: string) {
+	const articles = await getAllArticles();
+	return articles.filter(a => a.tags?.includes(id));
+}
+
+export async function getArticlesByAuthor(id: string) {
+	const articles = await getAllArticles();
+	return articles.filter(a => a.author === id);
+}
+
+export function articlesToFeedItems(articles: ArticleData[]) {
+	return articles.map((article) => ({
+		title: article.title,
+		description: article.description,
+		link: `${host}/articles/${article.slug}`,
+		pubDate: article.published.toUTCString()
+	}))
 }
 
 

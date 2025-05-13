@@ -1,31 +1,20 @@
 <script lang="ts">
 
-	let { date } = $props();
+	interface Props {
+		date: Date
+	}
 
-	const months: { [key: string]: string } = {
-		'01': 'Jan',
-		'02': 'Feb',
-		'03': 'Mar',
-		'04': 'Apr',
-		'05': 'May',
-		'06': 'Jun',
-		'07': 'Jul',
-		'08': 'Aug',
-		'09': 'Sep',
-		'10': 'Oct',
-		'11': 'Nov',
-		'12': 'Dec'
-	};
+	let { date }: Props = $props();
+	
 
 	let month =  $state('');
 	let day = $state('');
 	let year = $state('');
 
 	$effect(() => {
-		const parts = date.split('-');
-		year = parts[0];
-		month = months[parts[1]];
-		day = parts[2];
+		year = date.getFullYear().toString();
+		month = date.toLocaleString('en-us', { month: 'short' });
+		day = date.getDate().toString();
 	})
 </script>
 

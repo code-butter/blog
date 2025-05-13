@@ -6,6 +6,7 @@
 	import icons from "$lib/icons";
 	import FontSelector from './FontSelector.svelte';
 	import { tags } from '$lib/data';
+	import Icon from '@iconify/svelte';
 
 	let { children } = $props();
 	let show = $state(false);
@@ -60,6 +61,11 @@
 			</p>
 			<p>
 				Making programming a buttery smooth experience. Musings on code, infrastructure, and process.
+			</p>
+			<p class="rss">
+				<a href="/rss/">
+					<Icon icon={icons.rss} /> Get updates via RSS
+				</a>
 			</p>
 
 			<div class="subsection">
@@ -247,6 +253,10 @@
 		header {
       background-image: url("/background-sm.webp");
 		}
+	}
+
+	.rss {
+		margin: 1em 0;
 	}
 
 </style>
