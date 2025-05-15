@@ -4,7 +4,12 @@ import fs from 'node:fs';
 
 export function makeIdMap<T extends IdObject>(array: T[]): IdMap<T> {
 	const map: IdMap<T> = {};
-	array.forEach((a) => (map[a.id] = a));
+	array.forEach((a) => {
+		if (a.id.match(/[\s._]/)) {
+			throw `Invalid ID. Cannot contain spaces, periods, or underscores. Use dashes instead. ID: ${a.id}`;
+		}
+		map[a.id] = a;
+	});
 	return map;
 }
 
@@ -17,4 +22,13 @@ export function rss(data: Rss, filename: string) {
 			'Content-Disposition': `attachment; filename=${filename}.rss`
 		}
 	});
+}
+
+export function fixUrl(url: URL) {
+	url = new URL(url);
+	if (!url.pathname.endsWith('/') && !url.pathname.includes(".")) {
+		url.pathname += '/';
+		return url;
+	}
+	return null;
 }

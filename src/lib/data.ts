@@ -1,17 +1,17 @@
 import type { Author, Tag } from './types';
-import { makeIdMap } from '$lib/utils';
+import { makeIdMap } from './utils.ts';
 
 /****
  Edit the data here when modifying authors and tags
  ****/
 const authorsList: Author[] = [
 	{
-		id: 'jeremy.nicoll',
+		id: 'jeremy-nicoll',
 		displayName: 'Jeremy Nicoll',
 		description: ''
 	},
 	{
-		id: 'parag.ekbote',
+		id: 'parag-ekbote',
 		displayName: 'Parag Ekbote',
 		description: 'AI & Data Science undergrad. Currently passionate about open-source, machine learning and sharing practical insights through clean, reproducible code.'
 	}

@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<link rel="alternate" type="application/res+xml" href="/rss/authors/{author.id}/" />
+	<link rel="alternate" type="application/res+xml" href="/authors/{author.id}.rss" />
 </svelte:head>
 
 <div id="author">
@@ -17,7 +17,7 @@
 		<img src={`/authors/${author.id}.webp`} alt={`Profile image of ${author.displayName}`} />
 	</div>
 	<div id="author-info">
-		<a href={`/rss/authors/${author.id}/`} class="rss">
+		<a href={`/authors/${author.id}.rss`} class="rss">
 			<Icon icon={icons.rss} />
 			Subscribe to this author via RSS
 		</a>

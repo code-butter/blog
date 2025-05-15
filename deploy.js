@@ -1,12 +1,44 @@
 import { S3Client, PutObjectCommand, paginateListObjectsV2, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import * as fs from 'node:fs';
 import path from 'node:path';
-import { lookup } from 'mime-types';
+import { lookup as lookupType } from 'mime-types';
+import { authors, tags } from './src/lib/data.ts';
 
 const client = new S3Client();
 const buildPath = './build';
 const bucket = process.env.S3_BUCKET;
 const deployedKeys = [];
+
+
+
+const dispositionFilenames = [
+	(key) => key.endsWith('site.rss') ? 'code-butter' : undefined,
+	(key) => {
+		const matches = key.match(/tags\/([^/]+)/);
+		if (matches) {
+			return tags[matches[1]];
+		}
+	},
+	(key) => {
+		const matches = key.match(/authors\/([^/]+)/);
+		if (matches) {
+			return authors[matches[1]];
+		}
+	}
+]
+
+function lookupDisposition(key) {
+	if (!key.endsWith('.rss')) {
+		return undefined;
+	}
+	for (let i=0; i<dispositionFilenames.length; i++) {
+		const filename = dispositionFilenames[i](key);
+		if (filename) {
+			return `attachment; filename="${filename}.rss"`;
+		}
+	}
+	return `attachment; filename="${path.basename(key)}"`;
+}
 
 async function uploadDir(dir, prefix = "") {
 	const files = fs.readdirSync(dir);
@@ -23,7 +55,8 @@ async function uploadDir(dir, prefix = "") {
 			Bucket: bucket,
 			Key: s3Key,
 			Body: fs.createReadStream(fullPath),
-			ContentType: lookup(s3Key) || 'application/octet-stream',
+			ContentType: lookupType(s3Key) || 'application/octet-stream',
+			ContentDisposition: lookupDisposition(s3Key)
 		}));
 		console.log(`Uploaded ${s3Key}`);
 	}

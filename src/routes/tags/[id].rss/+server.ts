@@ -3,6 +3,7 @@ import { rss } from '$lib/utils';
 import { tags } from '$lib/data';
 import host from 'virtual:server-host';
 
+export const prerender = true;
 export async function GET({params}) {
 	const articles = await getArticlesByTag(params.id);
 	const tag = tags[params.id];

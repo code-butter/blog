@@ -7,6 +7,8 @@
 	import FontSelector from './FontSelector.svelte';
 	import { tags } from '$lib/data';
 	import Icon from '@iconify/svelte';
+	import { beforeNavigate, goto } from '$app/navigation';
+	import { fixUrl } from '$lib/utils';
 
 	let { children } = $props();
 	let show = $state(false);
@@ -14,6 +16,16 @@
 	let freezeContent = $state(false);
 	let contentWidth = $state('');
 	let innerContentDiv: HTMLDivElement;
+
+	beforeNavigate(({to, cancel}) => {
+		if (!to)
+			return;
+		const newUrl = fixUrl(to.url);
+		if (newUrl) {
+			cancel();
+			goto(`${newUrl.pathname}${newUrl.search}${newUrl.hash}`)
+		}
+	});
 
 	onMount(() => {
 		const storedMode = localStorage.getItem('viewMode');
@@ -63,7 +75,7 @@
 				Making programming a buttery smooth experience. Musings on code, infrastructure, and process.
 			</p>
 			<p class="rss">
-				<a href="/rss/">
+				<a href="/site.rss">
 					<Icon icon={icons.rss} /> Get updates via RSS
 				</a>
 			</p>

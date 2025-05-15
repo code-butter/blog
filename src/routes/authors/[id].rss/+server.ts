@@ -3,6 +3,8 @@ import { rss } from '$lib/utils';
 import { authors } from '$lib/data';
 import host from 'virtual:server-host';
 
+export const prerender = true;
+
 export async function GET({params}) {
 	const articles = await getArticlesByAuthor(params.id);
 	const author = authors[params.id];

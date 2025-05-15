@@ -1,6 +1,6 @@
 ---
 title: Python Projects Without Pollution - Why You Need Virtual Envs
-author: parag.ekbote
+author: parag-ekbote
 tags: python,virtualenv
 description: Learn why Python virtual environments are essential to avoid dependency conflicts and ensure reproducibility.
 published: 2025-05-07T00:00:00.000Z

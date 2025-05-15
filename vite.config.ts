@@ -31,13 +31,13 @@ export default defineConfig({
 			load(id) {
 				if (id !== serverHostId)
 					return;
-				return process.env.SERVER_HOST || address;
+				return `export default '${process.env.SERVER_HOST || address}'`;
 			},
 			configureServer(server) {
 				server.httpServer?.once('listening', () => {
 					const addressInfo = server.httpServer?.address() as AddressInfo;
 					const host = addressInfo.address === "::1" ? "localhost" : addressInfo.address;
-					address = `export default 'http://${host}:${addressInfo.port}';`;
+					address = `http://${host}:${addressInfo.port}`;
 				});
 			}
 		}
