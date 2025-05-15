@@ -31,12 +31,13 @@ You can clone this repo, make the required code changes, and submit a PR. Please
 
 * Test all changes to ensure that your article appears and the site works. 
 * Articles are in [mdsvex format](https://mdsvex.pngwn.io/docs) (Markdown in Svelte)
-* Save your article here: `src/articles/YYYY-MM-DD-slug.svx`
-* Modify author and tag information. The data is in code at `src/lib/data.ts`. Please use periods in lieu of spaces 
-  or dashes for the ID. All lowercase. 
+* Save your article here: `src/articles/${article-slug-name}.svx`
+* Modify author and tag information. The data is in code at `src/lib/data.ts`. Uses dashes as a spacer for IDs. 
 * Put in the required metadata/frontmatter at the top. If you're confused, consult the docs for mdsvex. 
   * `title` - Title used in listings and the top of the page
   * `description` - Description used in listings
   * `author` - The ID of the author
   * `tags` - comma seperated list of tag IDs 
+  * `published` - for PRs, set this to `$CURRENT_TIME`. This will be replaced by the build.
+  * `updated` - if you're updating this article in a PR, set it to `$CURRENT_TIME`. 
 * Add/update your author profile image at  `static/authors/{author.id}.webp`

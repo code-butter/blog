@@ -12,7 +12,7 @@
 {#each articles as article (article.slug)}
 	<div class="article">
 		<div class="article-date-container">
-			<ArticleDate date={article.date} />
+			<ArticleDate date={article.published} />
 		</div>
 		<div class="article-content">
 			<h2>

@@ -4,4 +4,8 @@
 	const { data }: PageProps = $props();
 </script>
 
+<svelte:head>
+	<link rel="alternate" type="application/res+xml" href="/site.rss" />
+</svelte:head>
+
 <Articles articles={data.articles} />
