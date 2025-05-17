@@ -32,7 +32,7 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build
+        run: SERVER_HOST=${{ vars.SERVER_HOST }} npm run build
 
       - name: Deploy
         run: S3_BUCKET=${{ secrets.S3_BUCKET }} node deploy.js
