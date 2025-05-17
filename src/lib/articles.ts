@@ -60,7 +60,7 @@ export function articlesToFeedItems(articles: ArticleData[]) {
 	return articles.map((article) => ({
 		title: article.title,
 		description: article.description,
-		link: `${host}/articles/${article.slug}`,
+		link: `${host}/articles/${article.slug}/`,
 		pubDate: article.published.toUTCString()
 	}))
 }
